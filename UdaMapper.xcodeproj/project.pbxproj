@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00009CB61B43511F00CE1EC7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00009CB51B43511F00CE1EC7 /* Reachability.swift */; };
+		00009CB81B43512B00CE1EC7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 00009CB71B43512B00CE1EC7 /* LICENSE */; };
 		0000F08D1B3E198400E86C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000F08C1B3E198400E86C3D /* AppDelegate.swift */; };
 		0000F0901B3E198400E86C3D /* UdaMapper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0000F08E1B3E198400E86C3D /* UdaMapper.xcdatamodeld */; };
 		0000F0951B3E198400E86C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0000F0931B3E198400E86C3D /* Main.storyboard */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00009CB51B43511F00CE1EC7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		00009CB71B43512B00CE1EC7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0000F0871B3E198400E86C3D /* UdaMapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UdaMapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0000F08B1B3E198400E86C3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0000F08C1B3E198400E86C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 		0000F08A1B3E198400E86C3D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				00009CB71B43512B00CE1EC7 /* LICENSE */,
+				00009CB51B43511F00CE1EC7 /* Reachability.swift */,
 				0000F08B1B3E198400E86C3D /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -245,6 +251,7 @@
 			files = (
 				0000F0951B3E198400E86C3D /* Main.storyboard in Resources */,
 				0000F09A1B3E198400E86C3D /* LaunchScreen.xib in Resources */,
+				00009CB81B43512B00CE1EC7 /* LICENSE in Resources */,
 				0000F0971B3E198400E86C3D /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +272,7 @@
 			files = (
 				0000F08D1B3E198400E86C3D /* AppDelegate.swift in Sources */,
 				0000F0B71B3E210E00E86C3D /* UdacityClient.swift in Sources */,
+				00009CB61B43511F00CE1EC7 /* Reachability.swift in Sources */,
 				0000F0901B3E198400E86C3D /* UdaMapper.xcdatamodeld in Sources */,
 				0008F69A1B406BE2007606F5 /* TableViewController.swift in Sources */,
 				0008F69C1B406C08007606F5 /* MapViewController.swift in Sources */,
