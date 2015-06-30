@@ -160,12 +160,19 @@ class LinkViewController: UIViewController {
     
     // Check for valid URL; return false if not
     // Kludge: Brute force conversion to NSURL obj
-    func checkValidURL(urlString: String) -> Bool {
+    func checkValidURL(var urlString: String) -> Bool {
         // a. check ! "Enter..."
         // b. check it's a valid NSURL object
         println("   (checking urlString: [\(urlString)]")
         var rv = false
         if urlString != "" {
+            if (count(urlString) < 7) {
+                return false
+            }
+            if ( urlString.substringWithRange(Range<String.Index>(start: advance(urlString.startIndex, 0), end: advance(urlString.startIndex, 7))) != "http://" ) {
+                return false
+            }
+            
             let theUrl = NSURL(string: urlString)
             if let okUrl = theUrl {     // NSURL object ensures that only a valid urlString can convert to a non-null obj
                 rv = true   // it's a valid URL
