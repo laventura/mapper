@@ -38,7 +38,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItems = [locationButton, refreshButton]
         self.navigationItem.leftBarButtonItems  = [logoutButton, tweetButton, moreButton]
         
-        self.navigationItem.title = "Places"
+        self.navigationItem.title = "Map"
         self.mapView.delegate     = self
         
         // Center
@@ -54,11 +54,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         // TODO: Reachability - test Network connectivity; proceed if all OK
         
+        /*--
         if let _ = UdacityClient.sharedInstance().students {
             self.mapView.removeAnnotations(annotations)     // clear out initial pins
             annotations = []
             self.showAnnotations(UdacityClient.sharedInstance().students!)  // reload
         }
+        --*/
+        doRefresh()
     }
 
     override func didReceiveMemoryWarning() {
