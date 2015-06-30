@@ -68,8 +68,6 @@ class LoginViewController: UIViewController {
     // MARK: - Actions
     @IBAction func loginPressed(sender: UIButton) {
         self.view.endEditing(true)
-        println("Login Pressed")
-        println("user: \(usernameField.text), password: \(passwordField.text)")
         if  usernameField.text != nil && usernameField.text != "" &&
             passwordField.text != nil && passwordField.text != "" {
                 UdacityClient.sharedInstance().authenticateUdacityWithViewController(self) { (success, errorString) -> Void in
@@ -85,22 +83,12 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func newAccountButtonPressed(sender: UIButton) {
-        println("## Opening new account...")
         showInfo("Opening browser to Udacity...")
         var request = NSURLRequest(URL: NSURL(string: "https://www.udacity.com/account/auth#!/signup")!)
         UIApplication.sharedApplication().openURL(request.URL!)
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func completeLogin() {
         println("## completeLogin: called")

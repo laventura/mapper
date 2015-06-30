@@ -97,7 +97,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // Post a tweet, if Twitter account enabled on device
     func doTweet() {
-        println("  [TableVC: Tweet called]")
         if SLComposeViewController.isAvailableForServiceType(twitterService) {
             let controller = SLComposeViewController(forServiceType: twitterService)
             
