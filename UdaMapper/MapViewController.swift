@@ -71,8 +71,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Actions
     func doLogout() {
-        println("  [MapVC: logout called]")
-        
         // TODO: Facebook Logout - for later
         
         UdacityClient.sharedInstance().students = nil
@@ -166,7 +164,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         if control == view.rightCalloutAccessoryView {
             let mediaURL = view.annotation.subtitle!
-            println("  [MapVC: trying URL: \(mediaURL)")
+            // println("  [MapVC: trying URL: \(mediaURL)")
             if let url = NSURL(string: mediaURL) {
                 var request = NSURLRequest(URL: url)
                 UIApplication.sharedApplication().openURL(request.URL!)
@@ -241,7 +239,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func showLocationViewController() {
-        println("... Invoking LocationVC to Create/Update New Location Info")
         let destinationController = self.storyboard!.instantiateViewControllerWithIdentifier("LocationViewController") as! LocationViewController
         destinationController.doUpdate = self.doUpdate
         

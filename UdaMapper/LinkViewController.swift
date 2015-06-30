@@ -75,9 +75,7 @@ class LinkViewController: UIViewController {
     }
 
     @IBAction func submitPressed(sender: UIButton) {
-        println("  LinkVC: submit pressed")
-        
-        // TODO: network Reachability 
+        // TODO: network Reachability
         
         // a. check URL not malformed
         if !checkValidURL(urlField.text) {
@@ -91,11 +89,11 @@ class LinkViewController: UIViewController {
                 UdacityClient.sharedInstance().account?.longitude   = thePlacemark!.coordinate.longitude
                 UdacityClient.sharedInstance().account?.latitude    = thePlacemark!.coordinate.latitude
                 
-                println(".. Trying to update: \(UdacityClient.sharedInstance().account!)")
+                // println(".. Trying to update: \(UdacityClient.sharedInstance().account!)")
                 
                 if let objectID = UdacityClient.sharedInstance().account?.objectId {
                     // record exists, update it
-                    println("... LinkVC: record exists... Updating it")
+                    // println("... LinkVC: record exists... Updating it")
                     UdacityClient.sharedInstance().saveStudentLocation(
                         UdacityClient.sharedInstance().account!) { (result, error) -> Void in
                         
@@ -106,7 +104,7 @@ class LinkViewController: UIViewController {
                             } else if let ok = result { // something returned
                                 
                                 if ok {     // Successfully updated.
-                                    println(".. Success Updated: \(UdacityClient.sharedInstance().account!)")
+                                    // println(".. Success Updated: \(UdacityClient.sharedInstance().account!)")
                                     dispatch_async(dispatch_get_main_queue(),{
                                         var alert = UIAlertController(title: "Info Updated",
                                             message: "New record:\n" +
@@ -124,7 +122,7 @@ class LinkViewController: UIViewController {
                             }
                     }
                 } else { // need to create new record
-                    println("... LinkVC creating new record...")
+                    // println("... LinkVC creating new record...")
                     UdacityClient.sharedInstance().saveStudentLocation(
                         UdacityClient.sharedInstance().account!) { (result, error) -> Void in
                         if error != nil {
@@ -133,7 +131,7 @@ class LinkViewController: UIViewController {
                             })
                         } else if let ok = result { // non null
                             if ok {     // Saved: all OK
-                                println(".. Success created: \(UdacityClient.sharedInstance().account!)")
+                                // println(".. Success created: \(UdacityClient.sharedInstance().account!)")
                                 dispatch_async(dispatch_get_main_queue(),{
                                     var alert = UIAlertController(title: "Info Saved",
                                         message: "New record:\n" +
@@ -163,16 +161,17 @@ class LinkViewController: UIViewController {
     func checkValidURL(var urlString: String) -> Bool {
         // a. check ! "Enter..."
         // b. check it's a valid NSURL object
-        println("   (checking urlString: [\(urlString)]")
+
         var rv = false
         if urlString != "" {
-            if (count(urlString) < 7) {
+            if (count(urlString) < 7) {     // ensure atleast 7 chars
                 return false
             }
+            // ensure 'http://'
             if ( urlString.substringWithRange(Range<String.Index>(start: advance(urlString.startIndex, 0), end: advance(urlString.startIndex, 7))) != "http://" ) {
                 return false
             }
-            
+            // ensure valid URL object
             let theUrl = NSURL(string: urlString)
             if let okUrl = theUrl {     // NSURL object ensures that only a valid urlString can convert to a non-null obj
                 rv = true   // it's a valid URL

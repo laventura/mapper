@@ -36,7 +36,7 @@ class UdacityClient: NSObject {
     // MARK: - POST method - common for Udacity and Parse
     func taskForPOSTMethod(method: String, isParse: Bool, parameters: [String : AnyObject]?, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
 
-        println("(POST: method: [\(method)])")
+        // println("(POST: method: [\(method)])")
         
         /* 1. Set the parameters */
         var urlString:String = ""
@@ -46,7 +46,7 @@ class UdacityClient: NSObject {
             urlString = method
         }
         
-        println("## POST urlString: [\(urlString)]")
+        // println("## POST urlString: [\(urlString)]")
         
         /* 2/3. Build the URL and configure the request */
         
@@ -97,7 +97,7 @@ class UdacityClient: NSObject {
     // MARK: - GET method
     func taskForGETMethod(method: String, isParse: Bool, parameters: [String : AnyObject]?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
  
-        println("(GET: method: [\(method)])")
+        // println("(GET: method: [\(method)])")
 
         
         /* 1. Set the parameters */
@@ -110,7 +110,7 @@ class UdacityClient: NSObject {
 
         /* 2/3. Build the URL and configure the request */
         
-        println("## GET urlString: [\(urlString)]")
+        // println("## GET urlString: [\(urlString)]")
         
         //let url = NSURL(string: urlString)!
         let myUrl = NSURL(string: urlString)!
@@ -149,7 +149,7 @@ class UdacityClient: NSObject {
     // example - PUT StudentLocation
     func taskForPUTMethod(method: String, parameters: [String : AnyObject]?, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
  
-        println("(PUT: method: [\(method)])")
+        // println("(PUT: method: [\(method)])")
 
         
         /* 1. Set the parameters */
@@ -160,7 +160,7 @@ class UdacityClient: NSObject {
             urlString = method
         }
  
-        println("## PUT urlString: [\(urlString)]")
+        // println("## PUT urlString: [\(urlString)]")
 
         /* 2/3. Build the URL and configure the request */
         
@@ -218,7 +218,7 @@ class UdacityClient: NSObject {
                 
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
                 
-                return NSError(domain: "On_the_Map", code: 1, userInfo: userInfo)
+                return NSError(domain: "UdaMapper", code: 1, userInfo: userInfo)
             }
         }
         

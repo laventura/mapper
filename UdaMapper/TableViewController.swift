@@ -44,8 +44,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // MARK: - Actions
     func doLogout() {
-        println("  [TableVC: logout called]")
-        
         // TODO: Facebook Logout - for later
         
         UdacityClient.sharedInstance().students = nil
@@ -56,8 +54,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // Post new location update; first check if record exists
     func doNewLocation() {
-        println("  [TableVC: doNewLocation called]")
-        
         // TODO: Reachability test
         
         let myKey = UdacityClient.sharedInstance().account!.uniqueKey!
@@ -193,18 +189,17 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // Open Browser - at the mediaURL of the selected Student
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("  [TableVC: selected row: \(indexPath.row)]")
         
         
         let theStudent  = UdacityClient.sharedInstance().students![indexPath.row]
-        println(theStudent)
+        // println(theStudent)
 
         let mediaUrl    = theStudent.mediaURL!
         if let url  = NSURL(string: mediaUrl)  {    // Ensure url is not malformed
         
             let request     = NSURLRequest(URL: url)
             
-            println("  [TableVC: invoking URL: [\(mediaUrl)]]")
+            // println("  [TableVC: invoking URL: [\(mediaUrl)]]")
             // Finally - open the Browser at the mediaURL location
             // UNCOMMENT NEXTLINE
             UIApplication.sharedApplication().openURL(request.URL!)
@@ -243,7 +238,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // Segue to LocationVC to create a new/update existing Location Info
     func showLocationViewController() {
-        println("... [TableVC] Invoking LocationVC to Create/Update New Location Info")
         let destinationController = self.storyboard!.instantiateViewControllerWithIdentifier("LocationViewController") as! LocationViewController
         destinationController.doUpdate = self.doUpdate
         

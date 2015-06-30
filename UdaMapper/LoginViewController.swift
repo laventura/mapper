@@ -91,7 +91,6 @@ class LoginViewController: UIViewController {
     
     
     func completeLogin() {
-        println("## completeLogin: called")
         showIndicator(false)
         
         // TODO: Launch the TabBarController

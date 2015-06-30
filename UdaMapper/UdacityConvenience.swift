@@ -132,8 +132,7 @@ extension UdacityClient {
     // Search Student Location. Needs uniqueKey
     func searchStudentLocation(uniqueKey: String, completionHander: (result: StudentInfo?, error: String?)->Void) {
         var parameters = [String:AnyObject]()
-        // Todo: fix Kludge below!!
-        // parameters["where"] = "%7B%22uniqueKey%22%3A%22\(uniqueKey)%22%7D"      // Fix this kludge
+        // Todo: fix kludge below!!
         
         // https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22XYZXYZ%22%7D       // CORRECT
         // https://api.parse.com/1/classes/StudentLocation?where=%257B%2522uniqueKey%2522%253A%2522XYZXYZ%2522%257D // INCORRECT
@@ -245,10 +244,10 @@ extension UdacityClient {
             } else {
                 if let results = JSONresult.valueForKey(JsonResponse.Session)?.valueForKey(JsonResponse.Id) as? String {
                     self.sessionID = results    // Store the Session Id
-                    println("## Session id:\(self.sessionID!)")
+                    // println("## Session id:\(self.sessionID!)")
                     if let key = JSONresult.valueForKey(JsonResponse.Account)?.valueForKey(JsonResponse.Key) as? String {
                         self.uniqueKey = key
-                        println("## Uniq Key:\(self.uniqueKey!)")
+                        // println("## Uniq Key:\(self.uniqueKey!)")
                     }
                     completionHandler(result: results, error: nil)
                 } else {
