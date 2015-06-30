@@ -24,6 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var annotations     = [MKPointAnnotation]() // store Pin annotations
     
     let twitterService  = SLServiceTypeTwitter
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,14 +81,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func doRefresh() {
-        // TODO: Reachability stuff - check Network status; proceed if NW is OK
         
-        // fetch more results
-        self.mapView.removeAnnotations(annotations)
-        numStudents = 0
-        annotations = []
-        UdacityClient.sharedInstance().students = nil
-        doLoadMoreLocations()       // fetch more Locations
+        let reachability = Reachability.reachabilityForInternetConnection()
+        
+        // check Network first
+        if reachability.isReachable() {
+            // fetch more results
+            self.mapView.removeAnnotations(annotations)
+            numStudents = 0
+            annotations = []
+            UdacityClient.sharedInstance().students = nil
+            doLoadMoreLocations()       // fetch more Locations
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
+        }
     }
     
     // Post a tweet, if Twitter account enabled on device; do initial text setup
@@ -119,41 +126,47 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
 
+    // Create or Update a Location record
     func doNewLocation() {
-        // TODO: Reachability test
         
-        let myKey = UdacityClient.sharedInstance().account!.uniqueKey!
-        UdacityClient.sharedInstance().searchStudentLocation(myKey) { (result, errorStr) -> Void in
-            if let errS = errorStr {
-                self.showAlert("Could not query student (key:\(myKey))\nError: \(errS)")
-            } else {
-                if result != nil {      // Update existing record
-                    // display Alert - allow only when user explicitly says so
-                    dispatch_async(dispatch_get_main_queue()) {
-                        // show some useful alert, if existing record
-                        let mapS = result?.mapString!
-                        let lat  = result?.latitude!
-                        let long = result?.longitude!
-                        var alert = UIAlertController(title: "Location record exists",
-                            message: "Current: \(mapS!) (\(lat!),\(long!))\nOverwrite location?",
-                            preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                        alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: self.overwrite))
-                        
-                        self.navigationController!.presentViewController(alert, animated: true, completion: { () -> Void in
-                            return()
-                        })
-                    }
-                } else {        // New record
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.showLocationViewController()
-                    })
-                    
-                }
-                
-            }
+        let reachability = Reachability.reachabilityForInternetConnection()
+        
+        // check NW connectivity first
+        if reachability.isReachable() {
             
-        } // search
+            let myKey = UdacityClient.sharedInstance().account!.uniqueKey!
+            UdacityClient.sharedInstance().searchStudentLocation(myKey) { (result, errorStr) -> Void in
+                if let errS = errorStr {
+                    self.showAlert("Could not query student (key:\(myKey))\nError: \(errS)")
+                } else {
+                    if result != nil {      // UPDATE existing record
+                        // display Alert - allow only when user explicitly says so
+                        dispatch_async(dispatch_get_main_queue()) {
+                            // show some useful alert, if existing record
+                            let mapS = result?.mapString!
+                            let lat  = result?.latitude!
+                            let long = result?.longitude!
+                            var alert = UIAlertController(title: "Location record exists",
+                                message: "Current: \(mapS!) (\(lat!),\(long!))\nOverwrite location?",
+                                preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: self.overwrite))
+                            
+                            self.navigationController!.presentViewController(alert, animated: true, completion: { () -> Void in
+                                return()
+                            })
+                        }
+                    } else {        // CREATE NEW record
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.showLocationViewController()
+                        })
+                        
+                    }
+                }   // result non-nil
+            } // search
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
+        }
         
     }
     
@@ -199,19 +212,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // get next batch of Student Info Locations
     func doLoadMoreLocations() {
-        // TODO: Reachability stuff?
-        UdacityClient.sharedInstance().getStudentLocations(100, skip: numStudents) { (result, errorS) -> Void in
-            if let errs = errorS {
-                self.showAlert("Couldn't fetch more student locations...")
-            } else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if result != nil {
-                        self.numStudents += result!.count
-                        self.showAnnotations(result!)
-                    }
-                    return
-                })
+        
+        let reachability = Reachability.reachabilityForInternetConnection()
+        
+        if reachability.isReachable() {
+        
+            UdacityClient.sharedInstance().getStudentLocations(100, skip: numStudents) { (result, errorS) -> Void in
+                if let errs = errorS {
+                    self.showAlert("Couldn't fetch more student locations...")
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        if result != nil {
+                            self.numStudents += result!.count
+                            self.showAnnotations(result!)
+                        }
+                        return
+                    })
+                }
             }
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
         }
     }
     

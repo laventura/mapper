@@ -19,7 +19,7 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     var numStudents     = 0     // num of Students
     
     let twitterService  = SLServiceTypeTwitter
-
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,40 +54,44 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     // Post new location update; first check if record exists
     func doNewLocation() {
-        // TODO: Reachability test
+ 
+        let reachability = Reachability.reachabilityForInternetConnection()
         
-        let myKey = UdacityClient.sharedInstance().account!.uniqueKey!
-        UdacityClient.sharedInstance().searchStudentLocation(myKey) { (result, errorStr) -> Void in
-            if let errS = errorStr {
-                self.showAlert("Could not query student (key:\(myKey))\nError: \(errS)")
-            } else {
-                if result != nil {      // Update existing record
-                    // display Alert - allow only when user explicitly says so
-                    dispatch_async(dispatch_get_main_queue()) {
-                        // show some useful alert, if existing record
-                        let mapS = result?.mapString!
-                        let lat  = result?.latitude!
-                        let long = result?.longitude!
-                        var alert = UIAlertController(title: "Location record exists",
-                            message: "Current: \(mapS!) (\(lat!),\(long!))\nOverwrite location?",
-                            preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                        alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: self.overwrite))
-                        
-                        self.navigationController!.presentViewController(alert, animated: true, completion: { () -> Void in
-                            return()
+        // check NW reachable first
+        if reachability.isReachable() {
+        
+            let myKey = UdacityClient.sharedInstance().account!.uniqueKey!
+            UdacityClient.sharedInstance().searchStudentLocation(myKey) { (result, errorStr) -> Void in
+                if let errS = errorStr {
+                    self.showAlert("Could not query student (key:\(myKey))\nError: \(errS)")
+                } else {
+                    if result != nil {      // UPDATE existing record
+                        // display Alert - allow only when user explicitly says so
+                        dispatch_async(dispatch_get_main_queue()) {
+                            // show some useful alert, if existing record
+                            let mapS = result?.mapString!
+                            let lat  = result?.latitude!
+                            let long = result?.longitude!
+                            var alert = UIAlertController(title: "Location record exists",
+                                message: "Current: \(mapS!) (\(lat!),\(long!))\nOverwrite location?",
+                                preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: self.overwrite))
+                            
+                            self.navigationController!.presentViewController(alert, animated: true, completion: { () -> Void in
+                                return()
+                            })
+                        }
+                    } else {        // CREATE New record; segue to LocationVC
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.showLocationViewController()
                         })
                     }
-                } else {        // Create New record; segue to LocationVC
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.showLocationViewController()
-                    })
-                    
                 }
-                
-            }
-            
-        } // search
+            } // search
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
+        }
         
     }
     
@@ -122,30 +126,41 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     }
     
     func doRefresh() {
-        // TODO: Reachability stuff - check NW status
-        
-        // fetch more results
-        numStudents = 0
-        UdacityClient.sharedInstance().students = nil   // should we?
-        loadMoreStudents()
+        let reachability = Reachability.reachabilityForInternetConnection()
+        // check NW reachable first
+        if reachability.isReachable() {
+            // fetch more results
+            numStudents = 0
+            UdacityClient.sharedInstance().students = nil   // should we?
+            loadMoreStudents()
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
+        }
     }
     
     // get next batch of Student Info
     func loadMoreStudents() {
-        // TODO: Reachability stuff?
-        UdacityClient.sharedInstance().getStudentLocations(100, skip: numStudents) { (result, errorS) -> Void in
-            if let errs = errorS {
-                self.showAlert("Couldn't fetch more Student Info...")
-            } else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if result != nil {
-                        if result!.count > 0 {
-                            self.tableView.reloadData()
+
+        let reachability = Reachability.reachabilityForInternetConnection()
+        // check NW reachable first
+        if reachability.isReachable() {
+
+            UdacityClient.sharedInstance().getStudentLocations(100, skip: numStudents) { (result, errorS) -> Void in
+                if let errs = errorS {
+                    self.showAlert("Couldn't fetch more Student Info...")
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        if result != nil {
+                            if result!.count > 0 {
+                                self.tableView.reloadData()
+                            }
                         }
-                    }
-                    return
-                })
+                        return
+                    })
+                }
             }
+        } else {
+            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
         }
     }
 

@@ -66,5 +66,9 @@ extension UdacityClient {
         static let longitude   = "longitude"
         static let udacity     = "udacity"
     }
+    
+    struct Msg {
+        static let kNetworkUnreachableMsg = "Network not reachable.\nPlease check WiFi or cellular connectivity."
+    }
 
 } //

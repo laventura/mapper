@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
     func completeLogin() {
         showIndicator(false)
         
-        // TODO: Launch the TabBarController
+        // Launch the TabBarController
         dispatch_async(dispatch_get_main_queue(), {
             self.infoLabel.text = ""
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController

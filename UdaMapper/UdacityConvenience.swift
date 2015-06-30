@@ -19,44 +19,53 @@ extension NSURLSessionTask {
     }
 }
 
+/***
+    Note: Contains Ashley Mills' Reachability code to test Network connectivity.
+    See here for more info: https://github.com/ashleymills/Reachability.swift
+***/
+
 extension UdacityClient {
     
     
     // Authenticate to Udacity; get this Users's account
     func authenticateUdacityWithViewController(hostViewController: LoginViewController, completionHandler: (success: Bool, errorString: String?) -> Void) {
-     
-        /* 1. TODO: Check network connectivity !!
-            If no connectivity, indicate on the LoginVC
-        */
-        
+             
+        let reachability = Reachability.reachabilityForInternetConnection()
         
         //
         if (hostViewController.usernameField.text != nil && hostViewController.passwordField.text != nil) {
-            hostViewController.showIndicator(true)  // indicate status on VC
-            // 3. get a new Session ID
-            self.getSessionID(hostViewController.usernameField.text, password: hostViewController.passwordField.text) { (result, error) -> Void in
+            // Check if NW is OK - either via Wifi or WWAN
+            if reachability.isReachable() {
                 
-                if (result != nil) {
-                    // 4. get this Users's account info
-                    self.getUserData(self.uniqueKey!) { theAccount, errorString in
-                        
-                        if theAccount != nil {
-                            // println("=> Logged in: \(theAccount)")
-                            hostViewController.showIndicator(false)
-                            completionHandler(success: true, errorString: nil)
+                hostViewController.showIndicator(true)  // indicate status on VC
+                // 3. get a new Session ID
+                self.getSessionID(hostViewController.usernameField.text, password: hostViewController.passwordField.text) { (result, error) -> Void in
+                    
+                    if (result != nil) {
+                        // 4. get this Users's account info
+                        self.getUserData(self.uniqueKey!) { theAccount, errorString in
+                            
+                            if theAccount != nil {
+                                // println("=> Logged in: \(theAccount)")
+                                hostViewController.showIndicator(false)
+                                completionHandler(success: true, errorString: nil)
+                            }
                         }
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            //
+                            hostViewController.showIndicator(false) // indicate status on VC
+                            completionHandler(success: false, errorString: "Could not authenticate user with given password")
+                        })
                     }
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        //
-                        hostViewController.showIndicator(false) // indicate status on VC
-                        completionHandler(success: false, errorString: "Could not authenticate user with given password")
-                    })
+                    
                 }
-                
+            } else {
+                hostViewController.showIndicator(false)
+                completionHandler(success: false, errorString: UdacityClient.Msg.kNetworkUnreachableMsg)
             }
             
-        }
+        } // if username
         
     } // func
     
