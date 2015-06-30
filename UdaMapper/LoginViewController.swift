@@ -74,7 +74,8 @@ class LoginViewController: UIViewController {
                     if success {
                         self.completeLogin()
                     } else {
-                        self.showInfo(errorString!)
+                        // self.showInfo(errorString!)
+                        self.showAlert(errorString!)
                     }
                     
                 }
