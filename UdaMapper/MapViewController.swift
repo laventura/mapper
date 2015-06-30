@@ -43,7 +43,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         // Center
         let center = CLLocationCoordinate2D(latitude: 39.8281421, longitude: -98.5796298)   // geo center of US; we need *something*
-        let span    = MKCoordinateSpanMake(50, 50)
+        let span    = MKCoordinateSpanMake(60, 60)
         let region  = MKCoordinateRegion(center: center, span: span)
         self.mapView.setRegion(region, animated: true)
         // Fetch init results to display
