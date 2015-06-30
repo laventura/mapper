@@ -189,7 +189,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qqe-iq-eEa">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qqe-iq-eEa">
                                 <rect key="frame" x="184" y="64" width="233" height="116"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="studying" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kv-H7-dcR">
@@ -236,6 +236,7 @@
                         <color key="backgroundColor" red="0.86665482954545459" green="0.86665482954545459" blue="0.86665482954545459" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Qqe-iq-eEa" firstAttribute="leading" secondItem="JrI-Mr-CTd" secondAttribute="leadingMargin" constant="168" id="0Il-CP-JEG"/>
+                            <constraint firstItem="Qqe-iq-eEa" firstAttribute="top" secondItem="ey7-Mv-u1y" secondAttribute="bottom" id="1eC-8S-2Oc"/>
                             <constraint firstItem="5Ik-Jm-owx" firstAttribute="top" secondItem="49f-O3-zxW" secondAttribute="bottom" constant="80" id="ABe-KW-5FW"/>
                             <constraint firstAttribute="centerX" secondItem="K6b-PI-Mjs" secondAttribute="centerX" id="AdZ-yH-BXa"/>
                             <constraint firstAttribute="centerY" secondItem="K6b-PI-Mjs" secondAttribute="centerY" constant="-32" id="D9V-Vg-PzK"/>
@@ -243,6 +244,7 @@
                             <constraint firstItem="K6b-PI-Mjs" firstAttribute="top" secondItem="ey7-Mv-u1y" secondAttribute="bottom" constant="116" id="I0L-Nb-UkM"/>
                             <constraint firstItem="49f-O3-zxW" firstAttribute="top" secondItem="K6b-PI-Mjs" secondAttribute="bottom" constant="70" id="PqQ-Ow-OmN"/>
                             <constraint firstItem="49f-O3-zxW" firstAttribute="leading" secondItem="JrI-Mr-CTd" secondAttribute="leadingMargin" constant="234" id="TcY-0H-qvZ"/>
+                            <constraint firstAttribute="width" secondItem="Qqe-iq-eEa" secondAttribute="width" id="UrT-MG-gVE"/>
                             <constraint firstAttribute="centerX" secondItem="K6b-PI-Mjs" secondAttribute="centerX" id="Yul-Ka-rXC"/>
                             <constraint firstAttribute="centerX" secondItem="Qqe-iq-eEa" secondAttribute="centerX" constant="-0.5" id="Zwq-5f-8ZT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="49f-O3-zxW" secondAttribute="trailing" constant="234" id="hQq-0n-UV8"/>
@@ -254,6 +256,7 @@
                             <mask key="constraints">
                                 <exclude reference="D9V-Vg-PzK"/>
                                 <exclude reference="Yul-Ka-rXC"/>
+                                <exclude reference="0Il-CP-JEG"/>
                                 <exclude reference="PqQ-Ow-OmN"/>
                                 <exclude reference="TcY-0H-qvZ"/>
                                 <exclude reference="hQq-0n-UV8"/>
@@ -296,7 +299,7 @@
                                     <action selector="submitPressed:" destination="EEh-Su-fiv" eventType="touchUpInside" id="I7L-kg-rx3"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter URL Here (http://...)" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O8m-P4-DNi">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter URL Here (http://...)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O8m-P4-DNi">
                                 <rect key="frame" x="16" y="110" width="568" height="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
