@@ -50,7 +50,7 @@ extension UdacityClient {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         //
                         hostViewController.showIndicator(false) // indicate status on VC
-                        completionHandler(success: false, errorString: "Could not authenticate user/password")
+                        completionHandler(success: false, errorString: "Could not authenticate user with given password")
                     })
                 }
                 
