@@ -20,6 +20,8 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     
     let twitterService  = SLServiceTypeTwitter
     
+    let reachability = Reachability.reachabilityForInternetConnection()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +57,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     // Post new location update; first check if record exists
     func doNewLocation() {
  
-        let reachability = Reachability.reachabilityForInternetConnection()
-        
         // check NW reachable first
         if reachability.isReachable() {
         
@@ -126,7 +126,7 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     }
     
     func doRefresh() {
-        let reachability = Reachability.reachabilityForInternetConnection()
+
         // check NW reachable first
         if reachability.isReachable() {
             // fetch more results
@@ -141,7 +141,6 @@ class TableViewController: UITableViewController, UITableViewDataSource,UITableV
     // get next batch of Student Info
     func loadMoreStudents() {
 
-        let reachability = Reachability.reachabilityForInternetConnection()
         // check NW reachable first
         if reachability.isReachable() {
 

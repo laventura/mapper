@@ -25,6 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     let twitterService  = SLServiceTypeTwitter
     
+    let reachability = Reachability.reachabilityForInternetConnection()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         self.navigationItem.title = "Map"
         self.mapView.delegate     = self
+        
         
         // Center
         let center = CLLocationCoordinate2D(latitude: 39.8281421, longitude: -98.5796298)   // geo center of US; we need *something*
@@ -81,20 +83,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func doRefresh() {
-        
-        let reachability = Reachability.reachabilityForInternetConnection()
-        
-        // check Network first
-        if reachability.isReachable() {
-            // fetch more results
-            self.mapView.removeAnnotations(annotations)
-            numStudents = 0
-            annotations = []
-            UdacityClient.sharedInstance().students = nil
-            doLoadMoreLocations()       // fetch more Locations
-        } else {
-            showAlert(UdacityClient.Msg.kNetworkUnreachableMsg)
-        }
+        // fetch more results
+        self.mapView.removeAnnotations(annotations)
+        numStudents = 0
+        annotations = []
+        UdacityClient.sharedInstance().students = nil
+        doLoadMoreLocations()       // fetch more Locations
     }
     
     // Post a tweet, if Twitter account enabled on device; do initial text setup
@@ -129,7 +123,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // Create or Update a Location record
     func doNewLocation() {
         
-        let reachability = Reachability.reachabilityForInternetConnection()
         
         // check NW connectivity first
         if reachability.isReachable() {
@@ -212,8 +205,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // get next batch of Student Info Locations
     func doLoadMoreLocations() {
-        
-        let reachability = Reachability.reachabilityForInternetConnection()
         
         if reachability.isReachable() {
         
